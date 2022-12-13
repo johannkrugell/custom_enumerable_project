@@ -29,4 +29,15 @@ class Array
     end
   end
 
+  def my_all?(&block)
+    return puts 'Please provide a block' unless block_given?
+
+    my_each(&block)
+
+    case @value_array
+    in [*, false, *] then return false
+    in [true, *] then return true
+    end
+  end
+
 end
