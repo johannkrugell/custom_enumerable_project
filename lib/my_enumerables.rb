@@ -39,5 +39,33 @@ class Array
     in [true, *] then return true
     end
   end
+  def my_select(&block)
+    @select_array = []
+    for element in self
+      value = yield(element)
+      @select_array << element if value == true
+    end
+      @select_array
+  end
 
+  def my_any?(&block)
+    return puts 'Please provide a block' unless block_given?
+
+    my_each(&block)
+
+    case @value_array
+    in [*, true, *] then return true
+    in [false, *] then return false
+    end
+  end
+
+  def my_count(&block)
+    return self.length unless block_given?
+    
+    my_select(&block)
+    @select_array.length
+  end
 end
+end
+
+[1, 1, 2, 3, 5, 8, 13, 21, 34].my_select { |element| element > 10 }
