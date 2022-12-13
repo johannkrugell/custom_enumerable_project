@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+# require 'pry-byebug'
+
+# Module of my own custom enumerables
 module Enumerable
   # Your code goes here
 end
@@ -7,5 +11,13 @@ end
 # your enumerable module will have access
 # to this method
 class Array
-  # Define my_each here
+  def my_each(&block)
+    return self unless block_given?
+
+    @value_array = []
+    for element in self
+      value = block.call element
+      @value_array << value
+    end
+  end
 end
