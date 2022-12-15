@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # require 'pry-byebug'
 
 # Module of my own custom enumerables
@@ -22,9 +23,11 @@ class Array
   end
 
   def my_each_with_index(&block)
+    return puts 'Please provide a block' unless block_given?
+
     index = 0
     for element in self
-      yield(element, index)
+      block.call(element, index)
       index += 1
     end
   end
@@ -39,13 +42,14 @@ class Array
     in [true, *] then return true
     end
   end
+
   def my_select(&block)
     @select_array = []
     for element in self
-      value = yield(element)
+      value = block.call(element)
       @select_array << element if value == true
     end
-      @select_array
+    @select_array
   end
 
   def my_any?(&block)
@@ -61,11 +65,20 @@ class Array
 
   def my_count(&block)
     return self.length unless block_given?
-    
+
     my_select(&block)
     @select_array.length
   end
-end
+
+  def my_inject(initial_value, &block)
+    return puts 'Please provide a block' unless block_given?
+
+    accumulator = initial_value
+    for element in self
+      accumulator = block.call(accumulator, element)
+    end
+    accumulator
+  end
 end
 
-[1, 1, 2, 3, 5, 8, 13, 21, 34].my_select { |element| element > 10 }
+p [1, 1, 2, 3, 5, 8, 13, 21, 34].my_inject(0) { |sum, value| sum + value }
