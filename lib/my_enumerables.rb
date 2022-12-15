@@ -84,6 +84,12 @@ class Array
     my_each(&block)
     @value_array
   end
+
+  def my_none?(&block)
+    my_map(&block)
+    my_block = lambda { |element| element == true }
+    @value_array.my_count(&my_block) > 0 ? false : true
+  end
 end
 
-p [1, 1, 2, 3, 5, 8, 13, 21, 34].my_map { |element| element * 2 }
+p [1, 1, 2, 3, 5, 8, 13, 21, 34].my_none? { |element| element > 2 }
