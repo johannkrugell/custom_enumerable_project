@@ -17,7 +17,7 @@ class Array
 
     @value_array = []
     for element in self
-      value = block.call element
+      value = block.call(element)
       @value_array << value
     end
   end
@@ -79,6 +79,11 @@ class Array
     end
     accumulator
   end
+
+  def my_map(&block)
+    my_each(&block)
+    @value_array
+  end
 end
 
-p [1, 1, 2, 3, 5, 8, 13, 21, 34].my_inject(0) { |sum, value| sum + value }
+p [1, 1, 2, 3, 5, 8, 13, 21, 34].my_map { |element| element * 2 }
